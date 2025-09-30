@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: raw                  # <-- dbt alias for dataset (instead of gz_raw_data)
+    schema: gz_raw_data        # <-- actual dataset name in BigQuery
+    description: "Greenweez raw data source"
+    tables:
+      - name: sales            # <-- dbt alias
+        identifier: raw_gz_sales   # <-- actual BQ table name
+        description: "Sales of Greenweez; one row per product_id found in each order_id"
+        columns:
+          - name: orders_id
+            description: "Order identifier"
+          - name: pdt_id
+            description: "Product identifier"
+          - name: order_product_key
+            description: "Primary key of the table: concatenation of orders_id and pdt_id"
+            tests:
+              - unique
+              - not_null
+
+      - name: product
+        identifier: raw_gz_product
+        description: "Purchase price by products_id"
+        columns:
+          - name: products_id
+            description: "Primary key of the table"
+            tests:
+              - unique
+              - not_null
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: "Shipping cost per order_id"
+        columns:
+          - name: order_id
+            description: "Order identifier"
+          - name: ship_cost
+            description: "Shipping cost of the order"
+
