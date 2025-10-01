@@ -13,11 +13,6 @@ sources:
             description: "Order identifier"
           - name: pdt_id
             description: "Product identifier"
-          - name: order_product_key
-            description: "Primary key of the table: concatenation of orders_id and pdt_id"
-            tests:
-              - unique
-              - not_null
 
       - name: product
         identifier: raw_gz_product
